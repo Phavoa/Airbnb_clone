@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+import json
+from os import path
+from models.base_model import BaseModel
+
+
+class FileStorage:
+
+    __file_path = "file.json"
+    __objects = {}
+
+    def all(self):
+        return FileStorage.__objects
+
+    def new(self, obj):
+        obj_key = f"{obj.__class__.__name__}.{obj.id}"
+        FileStorage.__objects[obj_key] = obj
+
+    def save(self):
+        with open(FileStorage.__file_path, "w") as f:
+            serialized_obj = {}
+            for key, value in FileStorage.__objects.items():
+                serialized_obj[key] = value.to_dict()
+            json.dump(serialized_obj, f)
+
+    def reload(self):
+        if path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, "r") as f:
+                deserialized_obj = json.load(f)
+                for key, value in deserialized_obj.items():
+                    class_name, obj_id = key.split(".")
+                    obj = eval(class_name)(**value)
+                    FileStorage.__objects[key] = obj
+        else:
+            return
