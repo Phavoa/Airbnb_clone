@@ -41,15 +41,15 @@ class HBNBCommand(cmd.Cmd):
         Prints the string form of an instance based on the class name and id
         """
         data = arg.split(" ")
-        if type(data[0]) != str:
+        if len(data) == 0 or type(data[0]) != str:
             print("** class name missing **")
-        elif "BaseModel" not in data:
+        elif data[0] != "BaseModel":
             print("** class doesn't exist **")
-        elif type(data[1]) != int:
+        elif len(data) == 1 or type(data[1]) != int:
             print("** instance id missing **")
         else:
             my_model = BaseModel()
-            if data[2] != my_model.id:
+            if my_model.id != data[1]:
                 print("** no instance found **")
     def emptyline(self):
         pass
