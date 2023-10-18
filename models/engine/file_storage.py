@@ -10,13 +10,22 @@ class FileStorage:
     __objects = {}
 
     def all(self):
+        """"
+        Returns the dictionary
+        """
         return FileStorage.__objects
 
     def new(self, obj):
+        """
+        Sets the dictionary with id
+        """
         obj_key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[obj_key] = obj
 
     def save(self):
+        """
+        Saves the instance to a file
+        """
         with open(FileStorage.__file_path, "w") as f:
             serialized_obj = {}
             for key, value in FileStorage.__objects.items():
@@ -24,6 +33,9 @@ class FileStorage:
             json.dump(serialized_obj, f)
 
     def reload(self):
+        """
+        Reloads the instances from a json file
+        """
         if path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as f:
                 deserialized_obj = json.load(f)
