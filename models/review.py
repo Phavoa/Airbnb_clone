@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
 """
-The module that contains the USER class
+The module that contains the REVIEW class
 """
 from models.base_model import BaseModel
-from datetime import datetime
-from uuid import uuid4
 import models
 
 
-class User(BaseModel):
+class Review(BaseModel):
     """
-    The class User that inherits the BaseModel class
+    The class State that inherits the BaseModel class
     """
-    email = ""
-    first_name = ""
-    last_name = ""
-    password = ""
+    user_id = ""
+    place_id = ""
+    text = ""
 
     def __init__(self, *args, **kwargs):
         """
