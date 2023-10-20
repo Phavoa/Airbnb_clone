@@ -166,7 +166,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** attribute name missing **")
             elif len(data) < 4:
                 print("** value missing **")
-            elif len(data) > 4:
+            elif len(data) > 4 and data[2].startswith("{"):
+                print(data[2])
                 new_dict = ""
                 for i in range(2, len(data)):
                     new_dict += data[i]
@@ -178,10 +179,11 @@ class HBNBCommand(cmd.Cmd):
                 for key, value in new_dict.items():
                     setattr(kwargs, key, value)
                 storage.save()
-                print(new_dict)
             else:
                 dict_id = data[0] + "." + data[1]
                 kwargs = storage.all()[dict_id]
+                data[3] = re.findall('[^"]', data[3])
+                data[3] = "".join(data[3])
                 setattr(kwargs, data[2], data[3])
                 storage.save()
 
